@@ -96,14 +96,16 @@ def performUpdate():
 	# check to see if captcha
 	captcha = launcher.html.find('div', id='recaptcha-check')
 	if captcha:
-		print 'Captcha was present, stop DOSing gov.uk idiot'
-		return
-
+		print 'Captcha was present, trying to cheat it'
+		launcher.fields['recaptcha_challenge_field'] ='03AHJ_VutMnn7PeBuU6AwZkfneWrXIM50_b_7HeMtrQTf6pfPiO4Ht_o0c3ytHnGWMKK_dNBxVdzDAEwOFwHu-GYRNA_OYC-u54M-hYGQMCAU6gFUKzN3NJCwUtNlagB1bTGgFcYIjUWTWvR8cQqXDbXkO1J3aG-oDzxYPo_u48NdrThb6OiSv88I'
+		launcher.fields['recaptcha_response_field'] = 'var+itingzc'
 	print ''
 
 	time.sleep(pauseTime)
 
 	launcher.connect()
+	if captcha:
+		print launcher.html.find("Enter details below to access your booking")
 
 	dateChangeURL = launcher.html.find(id="date-time-change").get('href')
 	# example URL: href="/manage?execution=e1s1&amp;csrftoken=hIRXetGR5YAOdERH7aTLi14fHfOqnOgt&amp;_eventId=editTestDateTime"
