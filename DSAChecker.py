@@ -56,8 +56,8 @@ def isBeforeMyTest(dt):
 def sendEmail(datetimeList):
 
 	SMTPserver = 'smtp.gmail.com'
-	sender =     'example@example.com'
-	destination = ['example@example.com']
+	sender =     emailFrom
+	destination = emailAddresses
 
 	USERNAME = "example@example.com"
 	PASSWORD = "password"
@@ -72,7 +72,7 @@ def sendEmail(datetimeList):
 
 	content += "\nChecked at [%s]\n\n" % time.strftime('%Y-%m-%d @ %H:%M')
 
-	subject="Driving Test Cancellations"
+	subject = emailSubject
 
 	import sys
 	import os
@@ -114,6 +114,7 @@ def performUpdate():
 	captcha = launcher.html.find('div', id='recaptcha-check')
 	if captcha:
 		print 'Captcha was present, retry later'
+		# TODO: implement something to solve these or prompt you for them
 		return
 	print ''
 
@@ -132,11 +133,7 @@ def performUpdate():
 	slotPickingPage = Page(dateChangeURL, cookieJar)
 	slotPickingPage.fields = launcher.fields
 
-	# slotPickingPage.acquireHiddenFields()
 	slotPickingPage.connect()
-
-	# should now be at the test centre search thing
-	# slotPickingPage.acquireHiddenFields()
 
 	e1s2URL = slotPickingPage.html.form.get('action')
 	e1s2URL = 'https://driverpracticaltest.direct.gov.uk' + e1s2URL
