@@ -15,10 +15,10 @@ from DSACheckerClasses import Page, SlotsPage
 launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
 
 # the full licence number
-licenceNumber = '******'
+licenceNumber = '*********'
 
 # full theory certificate number
-theoryNumber = '*****'
+theoryNumber = '**********'
 
 # date theory test was passed (on certificate)
 #theoryPassDate = ('2010', '01', '01')
@@ -39,7 +39,7 @@ emailFrom = "no-reply@example.com"
 # Put in your current test date in the format "Thursday 4 July 2013 2:00pm"; you will be alerted if an earlier slot appears
 
 
-myTestDateString = 'Thursday 4 July 2013 2:00pm'
+myTestDateString = 'Wednesday 12 June 2013 2:00pm'
 
 myTestDate = datetime.strptime(myTestDateString, '%A %d %B %Y %I:%M%p')
 
@@ -90,8 +90,8 @@ def performUpdate():
 	launcher = Page(launchPage, cookieJar)
 	launcher.connect()
 	launcher.acquireHiddenFields()
-	launcher.fields['driving-licence-number'] = licenceNumber
-	launcher.fields['application-reference-number'] = theoryNumber
+	launcher.fields['username'] = licenceNumber
+	launcher.fields['password'] = theoryNumber
 	
 	# check to see if captcha
 	captcha = launcher.html.find('div', id='recaptcha-check')
@@ -114,31 +114,41 @@ def performUpdate():
 	slotPickingPage = Page(dateChangeURL, cookieJar)
 	slotPickingPage.fields = launcher.fields
 
-	slotPickingPage.acquireHiddenFields()
+	# slotPickingPage.acquireHiddenFields()
 	slotPickingPage.connect()
 
 	# should now be at the test centre search thing
-	slotPickingPage.acquireHiddenFields()
-	slotPickingPage.connect()
+	# slotPickingPage.acquireHiddenFields()
+
+	e1s2URL = slotPickingPage.html.form.get('action')
+	e1s2URL = 'https://driverpracticaltest.direct.gov.uk' + e1s2URL
+	datePickerPage = Page(e1s2URL, cookieJar)
+
+	datePickerPage.fields['testChoice'] = 'ASAP'
+	datePickerPage.connect()
 
 	# earliest available date
 
 	availableDates = []
 
-	for slot in slotPickingPage.html(id="availability-results").find_all('a'):
-		availableDates.append(datetime.strptime(slot.string, '%A %d %B %Y %I:%M%p'))
+	for slot in datePickerPage.html(id="availability-results")[0].find_all('a'):
+		if "Slot" in slot['id']:
+			availableDates.append(datetime.strptime(slot.string, '%A %d %B %Y %I:%M%p'))
 
 
 	print '---> Available slots:'
 	
+	soonerDates = []
+
 	for dt in availableDates:
 		if isBeforeMyTest(dt):
 			print '-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),)
+			soonerDates.append(dt)
 		else:
 			print '-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),)
 	
-	#if len(cancellationList):
-		#sendEmail(cancellationList)
+	#if len(soonerDates):
+		#sendEmail(soonerDates)
 
 performUpdate()
 

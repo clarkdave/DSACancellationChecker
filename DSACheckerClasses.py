@@ -1,6 +1,7 @@
 import urllib, urllib2, cookielib
 from bs4 import BeautifulSoup
 from datetime import datetime
+import re
 
 class Page:
 	fields = {}
@@ -31,6 +32,12 @@ class Page:
 			self.response = self.opener.open(self.url)
 			
 		self.html = BeautifulSoup(self.response.read())
+
+		# save the pages for diagnostic info
+		# save = open(re.sub(r'\W+', '', self.html.title.string) + '.html', 'w')
+		# save.write(str(self.html))
+		# save.close()
+
 	
 	def acquireHiddenFields(self):
 		# search the page for hidden POST fields
