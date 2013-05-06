@@ -11,41 +11,56 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from DSACheckerClasses import Page
 
-# this should point at the DSA login page
-launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
+##################################################################
+#                                                                #
+# Update the following variables with your own personal details: #
+#                                                                #
+##################################################################
 
-# the full licence number
+
+# Driving license number (Example: MORGA657054SM9IJ)
 licenceNumber = '**********'
 
-# full theory certificate number
+# Application reference number 
+# (This number was given when you booked the test. It can be found on your confirmation email.)
 theoryNumber = '************'
 
-# date theory test was passed (on certificate)
-#theoryPassDate = ('2010', '01', '01')
+# Email sending details
 
-# surname on driving licence
-#surname = 'Foo'
+# The email addresses you wish to send notifications to
+emailAddresses = ['example@example.com', 'MySecondEmailAddress@example.com']
 
-# birth date
-#birthDate = ('1990', '01', '01')
-
-cookieJar = cookielib.CookieJar()
-
-# these addresses will be mailed when a cancellation is found
-emailAddresses = ['example@example.com']
 emailSubject = "DSA Cancellations"
 emailFrom = "no-reply@example.com"
 
+# Enter your gmail account details here so that the script can send emails
+emailUsername = 'example@gmail.com'
+emailPassword = 'mypassword' # the password to your "example@gmail.com" account
+
+# Change this (at your own risk) if you don't use gmail (e.g. to hotmail/yahoo/etc smtp servers
+emailSMTPserver = 'smtp.gmail.com'
+
 # Put in your current test date in the format "Thursday 4 July 2013 2:00pm"; you will be alerted if an earlier slot appears
 
-
 myTestDateString = 'Wednesday 12 June 2013 2:00pm'
+
+
+##################################################################
+#                                                                #
+#              DO NOT MODIFY ANYTHING BELOW THIS LINE            #
+#                                                                #
+##################################################################
+
+
+
 
 myTestDate = datetime.strptime(myTestDateString, '%A %d %B %Y %I:%M%p')
 
 # time to wait between each page request (set to a reasonable number
 # to avoid hammering DSA's servers)
 pauseTime = 5
+
+cookieJar = cookielib.CookieJar()
 
 def isBeforeMyTest(dt):
 	if dt <= myTestDate:
@@ -55,12 +70,12 @@ def isBeforeMyTest(dt):
 
 def sendEmail(datetimeList):
 	# i should probably point out i pinched this from stackoverflow or something
-	SMTPserver = 'smtp.gmail.com'
+	SMTPserver = emailSMTPserver
 	sender =     emailFrom
 	destination = emailAddresses
 
-	USERNAME = "example@example.com"
-	PASSWORD = "password"
+	USERNAME = emailUsername
+	PASSWORD = emailPassword
 
 	# typical values for text_subtype are plain, html, xml
 	text_subtype = 'plain'
@@ -100,6 +115,9 @@ def sendEmail(datetimeList):
 
 
 def performUpdate():
+
+	# this should point at the DSA login page
+	launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
 
 	print '[%s]' % (time.strftime('%Y-%m-%d @ %H:%M'),)
 	print '---> Starting update...'

@@ -4,7 +4,11 @@ A small Python shell script which logs in to the DSA test checking website to lo
 
 It will only work if you already have a booking, as this is generally the case when you look for a cancellation (you book a test in the future, and check regularly to see if you can get it moved forward). With a bit more work, this script could be updated to actually book the cancellation for you, as you don't need to re-enter payment details if you are simply changing your slot.
 
-## Example
+## Usage
+
+First, open up "DSAChecker.py" and fill in the fields with your details.
+
+The Gmail username and password is required to send you cancellation notification emails, and is only ever used to authenticate with Gmail's servers to allow the script to send emails.
 
 To run on Windows, simply create a scheduled task, running DSAChecker.py at your desired interval.
 
@@ -12,7 +16,15 @@ On Unix-like systems, you can use a cron job:
 
 	*/15 6-23 * * * /app/dsa/DSAChecker.py >> /app/dsa/check.log 2>&1
 	
-The above will run the script every 15 minutes between the hours of 6am and 11pm. The DSA website used to be taken offline outside of these hours - if this is no longer the case, you could just run it all day.
+The above will run the script every 15 minutes between the hours of 6am and 11pm. The DSA website is currently taken offline outside of these hours - if this is no longer the case, you could just run it all day.
+
+## Requirements
+
+* For obvious reasons, you can only use this if you are actually looking to book a test
+	* Specifically, you need a valid application number for your existing booking and provisional licence
+* A Gmail account to send emails via SMTP (however, modifying the script to use an alternative email provider is trivial)
+* Python 2.7
+* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 
 ## Limitations
 
@@ -26,14 +38,7 @@ It's not possible to test this script without a 'guinea pig' who is currently lo
 
 Every now and then a friend of mine who is looking to book a cancellation will let me use their details to update the script, so I may periodically update the source to work with the latest version of the website.
 
-The last time the script was tested and confirmed working was May 2013
-
-## Requirements
-
-* For obvious reasons, you can only use this if you are actually looking to book a test
-	* Specifically, you need a valid application number for your existing booking and provisional licence
-* Python 2.7
-* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
+The last time the script was tested and confirmed working was May 2013.
 
 ## License 
 
