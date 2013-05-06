@@ -54,7 +54,7 @@ def isBeforeMyTest(dt):
 		return False
 
 def sendEmail(datetimeList):
-
+	# i should probably point out i pinched this from stackoverflow or something
 	SMTPserver = 'smtp.gmail.com'
 	sender =     emailFrom
 	destination = emailAddresses
