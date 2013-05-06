@@ -39,9 +39,9 @@ emailFrom = "no-reply@example.com"
 # Put in your current test date in the format "Thursday 4 July 2013 2:00pm"; you will be alerted if an earlier slot appears
 
 
-Thursday = 'pymyTestDateString 4 July 2013 2:00pm'
+myTestDateString = 'Thursday 4 July 2013 2:00pm'
 
-myTestDate = datetime.strptime(myTestDate, '%A %d %B %Y %I:%M%p')
+myTestDate = datetime.strptime(myTestDateString, '%A %d %B %Y %I:%M%p')
 
 # time to wait between each page request (set to a reasonable number
 # to avoid hammering DSA's servers)
@@ -107,7 +107,7 @@ def performUpdate():
 
 	dateChangeURL = launcher.html.find(id="date-time-change").get('href')
 	# example URL: href="/manage?execution=e1s1&amp;csrftoken=hIRXetGR5YAOdERH7aTLi14fHfOqnOgt&amp;_eventId=editTestDateTime"
-	# i am probably screwing up the POST bit on the forms here
+	# i am probably screwing up the POST bit on the forms
 	dateChangeURL = 'https://driverpracticaltest.direct.gov.uk' + dateChangeURL
 
 
