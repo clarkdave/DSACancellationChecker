@@ -6,11 +6,19 @@ It will only work if you already have a booking, as this is generally the case w
 
 ## Example
 
-As a shell script it is best suited to being run on a cron. In the past I have had it running every 15 minutes and achieved good results.
+To run on Windows, simply create a scheduled task, running DSAChecker.py at your desired interval.
+
+On Unix-like systems, you can use a cron job:
 
 	*/15 6-23 * * * /app/dsa/DSAChecker.py >> /app/dsa/check.log 2>&1
 	
 The above will run the script every 15 minutes between the hours of 6am and 11pm. The DSA website used to be taken offline outside of these hours - if this is no longer the case, you could just run it all day.
+
+## Limitations
+
+If you repeatedly run the script, the DSA website will start serving you up captchas. They are solvable by computers, but this requires use of a paid service (companies that sell software to check for DSA cancellations utilize these).
+
+At some point in the future I may include something to prompt you to solve the captcha.
 
 ## Long term support
 
@@ -18,20 +26,22 @@ It's not possible to test this script without a 'guinea pig' who is currently lo
 
 Every now and then a friend of mine who is looking to book a cancellation will let me use their details to update the script, so I may periodically update the source to work with the latest version of the website.
 
-The last time I confirmed the script working was *October 2010*.
+The last time the script was tested and confirmed working was May 2013
 
 ## Requirements
 
 * For obvious reasons, you can only use this if you are actually looking to book a test
-	* Specifically, you need a valid theory test certificate and provisional licence
+	* Specifically, you need a valid application number for your existing booking and provisional licence
 * Python 2.7
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 
 ## License 
 
-(The MIT License)
+Modifications for new gov.uk website (c) 2013 Josh Palmer (joshpalmer123@gmail.com)
 
-Copyright (c) 2010-2011 Dave Clark (me@clarkdave.net)
+Original Version copyright (c) 2010-2011 Dave Clark (me@clarkdave.net)
+
+(The MIT License)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
