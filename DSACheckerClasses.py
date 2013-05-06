@@ -34,9 +34,9 @@ class Page:
 		self.html = BeautifulSoup(self.response.read())
 
 		# save the pages for diagnostic info
-		# save = open(re.sub(r'\W+', '', self.html.title.string) + '.html', 'w')
-		# save.write(str(self.html))
-		# save.close()
+		save = open(re.sub(r'\W+', '', self.html.title.string) + '.html', 'w')
+		save.write(str(self.html))
+		save.close()
 
 	
 	def acquireHiddenFields(self):

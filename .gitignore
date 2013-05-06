@@ -1,0 +1,4 @@
+# Ignore compiled Python files
+*.pyc
+*.html
+*.ini

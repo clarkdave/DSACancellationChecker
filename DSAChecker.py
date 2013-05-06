@@ -15,10 +15,10 @@ from DSACheckerClasses import Page, SlotsPage
 launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
 
 # the full licence number
-licenceNumber = '*********'
+licenceNumber = '***'
 
 # full theory certificate number
-theoryNumber = '**********'
+theoryNumber = '***'
 
 # date theory test was passed (on certificate)
 #theoryPassDate = ('2010', '01', '01')
@@ -54,32 +54,49 @@ def isBeforeMyTest(dt):
 		return False
 
 def sendEmail(datetimeList):
-	print 'Not implemented yet on windows'
-	return;
 
-	# p = os.popen('%s -t' % '/usr/sbin/sendmail', 'w')
-	# for address in emailAddresses:
-	# 	p.write("To: %s\n" % address)
-	# p.write("Subject: %s\n" % emailSubject)
-	# p.write("From: %s\n" % emailFrom)
-	# p.write("\n")
+	SMTPserver = 'smtp.gmail.com'
+	sender =     'example@example.com'
+	destination = ['example@example.com']
 
-	# # build email body
+	USERNAME = "example@example.com"
+	PASSWORD = "***"
 
-	# content = "Available DSA test slots at Horsforth:\n\n"
+	# typical values for text_subtype are plain, html, xml
+	text_subtype = 'plain'
 
-	# for dt in datetimeList:
-	# 	content += "* %s\n" % dt.strftime('%A %d %b %Y at %H:%M')
+	content = "Available DSA test slots at Horsforth:\n\n"
 
-	# content += "\nChecked at [%s]\n\n" % time.strftime('%Y-%m-%d @ %H:%M')
+	for dt in datetimeList:
+		content += "* %s\n" % dt.strftime('%A %d %b %Y at %H:%M')
 
-	# p.write(content)
-	# status = p.close()
-	
-	# if status:
-	# 	print '---> ! An error occured when sending emails'
-	# else:
-	# 	print '---> Sent emails to %s' % '; '.join(e for e in emailAddresses)
+	content += "\nChecked at [%s]\n\n" % time.strftime('%Y-%m-%d @ %H:%M')
+
+	subject="Driving Test Cancellations"
+
+	import sys
+	import os
+	import re
+
+	from smtplib import SMTP_SSL as SMTP       # this invokes the secure SMTP protocol (port 465, uses SSL)
+	# from smtplib import SMTP                  # use this for standard SMTP protocol   (port 25, no encryption)
+	from email.MIMEText import MIMEText
+
+	try:
+	    msg = MIMEText(content, text_subtype)
+	    msg['Subject']=       subject
+	    msg['From']   = sender # some SMTP servers will do this automatically, not all
+
+	    conn = SMTP(SMTPserver)
+	    conn.set_debuglevel(False)
+	    conn.login(USERNAME, PASSWORD)
+	    try:
+	        conn.sendmail(sender, destination, msg.as_string())
+	    finally:
+	        conn.close()
+
+	except Exception, exc:
+	    sys.exit( "mail failed; %s" % str(exc) ) # give a error message
 
 
 def performUpdate():
@@ -96,9 +113,8 @@ def performUpdate():
 	# check to see if captcha
 	captcha = launcher.html.find('div', id='recaptcha-check')
 	if captcha:
-		print 'Captcha was present, trying to cheat it'
-		launcher.fields['recaptcha_challenge_field'] ='03AHJ_VutMnn7PeBuU6AwZkfneWrXIM50_b_7HeMtrQTf6pfPiO4Ht_o0c3ytHnGWMKK_dNBxVdzDAEwOFwHu-GYRNA_OYC-u54M-hYGQMCAU6gFUKzN3NJCwUtNlagB1bTGgFcYIjUWTWvR8cQqXDbXkO1J3aG-oDzxYPo_u48NdrThb6OiSv88I'
-		launcher.fields['recaptcha_response_field'] = 'var+itingzc'
+		print 'Captcha was present, retry later'
+		return
 	print ''
 
 	time.sleep(pauseTime)
@@ -149,8 +165,8 @@ def performUpdate():
 		else:
 			print '-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),)
 	
-	#if len(soonerDates):
-		#sendEmail(soonerDates)
+	if len(soonerDates):
+		sendEmail(soonerDates)
 
 performUpdate()
 
