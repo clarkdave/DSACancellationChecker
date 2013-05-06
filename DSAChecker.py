@@ -9,7 +9,7 @@ import urllib, urllib2, cookielib, time, sys, os
 from datetime import timedelta
 from datetime import datetime
 from bs4 import BeautifulSoup
-from DSACheckerClasses import Page, SlotsPage
+from DSACheckerClasses import Page
 
 # this should point at the DSA login page
 launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
@@ -106,7 +106,6 @@ def performUpdate():
 
 	launcher = Page(launchPage, cookieJar)
 	launcher.connect()
-	launcher.acquireHiddenFields()
 	launcher.fields['username'] = licenceNumber
 	launcher.fields['password'] = theoryNumber
 	
