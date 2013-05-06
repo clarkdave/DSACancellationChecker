@@ -15,10 +15,10 @@ from DSACheckerClasses import Page, SlotsPage
 launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
 
 # the full licence number
-licenceNumber = '***'
+licenceNumber = '**********'
 
 # full theory certificate number
-theoryNumber = '***'
+theoryNumber = '************'
 
 # date theory test was passed (on certificate)
 #theoryPassDate = ('2010', '01', '01')
@@ -60,7 +60,7 @@ def sendEmail(datetimeList):
 	destination = ['example@example.com']
 
 	USERNAME = "example@example.com"
-	PASSWORD = "***"
+	PASSWORD = "password"
 
 	# typical values for text_subtype are plain, html, xml
 	text_subtype = 'plain'
@@ -151,7 +151,7 @@ def performUpdate():
 
 	for slot in datePickerPage.html(id="availability-results")[0].find_all('a'):
 		if "Slot" in slot['id']:
-			availableDates.append(datetime.strptime(slot.string, '%A %d %B %Y %I:%M%p'))
+			availableDates.append(datetime.strptime(slot.string.strip(), '%A %d %B %Y %I:%M%p'))
 
 
 	print '---> Available slots:'
