@@ -12,76 +12,74 @@ from BeautifulSoup import BeautifulSoup
 from DSACheckerClasses import Page, SlotsPage
 
 # this should point at the DSA login page
-launchPage = 'https://driverpracticaltest.direct.gov.uk/logincheck.aspx'
+launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
 
 # the full licence number
-licenceNumber = '*********'
+licenceNumber = '******'
 
 # full theory certificate number
-theoryNumber = '*********'
+theoryNumber = '*****'
 
 # date theory test was passed (on certificate)
-theoryPassDate = ('2010', '01', '01')
+#theoryPassDate = ('2010', '01', '01')
 
 # surname on driving licence
-surname = 'Foo'
+#surname = 'Foo'
 
 # birth date
-birthDate = ('1990', '01', '01')
+#birthDate = ('1990', '01', '01')
 
 cookieJar = cookielib.CookieJar()
 
 # these addresses will be mailed when a cancellation is found
-emailAddresses = ['someone@example.com']
+emailAddresses = ['example@example.com']
 emailSubject = "DSA Cancellations"
 emailFrom = "no-reply@example.com"
 
-# test dates which are within this number of days will be considered
-# as cancellations and will trigger an email
-cancellationAlertDays = 20
+# Put in your current test date in the format "Thursday 4 July 2013 2:00pm"; you will be alerted if an earlier slot appears
+
+
+Thursday = 'pymyTestDateString 4 July 2013 2:00pm'
+
+myTestDate = datetime.strptime(myTestDate, '%A %d %B %Y %I:%M%p')
 
 # time to wait between each page request (set to a reasonable number
 # to avoid hammering DSA's servers)
 pauseTime = 5
 
-def isCancellation(dt):
-	# decide if this date is a cancellation based on
-	# specific criteria
-
-	# create timedelta
-	delta = timedelta(days=cancellationAlertDays)
-	
-	threshold = datetime.today() + delta
-
-	if dt <= threshold:
+def isBeforeMyTest(dt):
+	if dt <= myTestDate:
 		return True
 	else:
 		return False
 
 def sendEmail(datetimeList):
-	p = os.popen('%s -t' % '/usr/sbin/sendmail', 'w')
-	for address in emailAddresses:
-		p.write("To: %s\n" % address)
-	p.write("Subject: %s\n" % emailSubject)
-	p.write("From: %s\n" % emailFrom)
-	p.write("\n")
+	print 'Not implemented yet on windows'
+	return;
 
-	# build email body
+	# p = os.popen('%s -t' % '/usr/sbin/sendmail', 'w')
+	# for address in emailAddresses:
+	# 	p.write("To: %s\n" % address)
+	# p.write("Subject: %s\n" % emailSubject)
+	# p.write("From: %s\n" % emailFrom)
+	# p.write("\n")
 
-	content = "Available DSA test slots at Canterbury:\n\n"
+	# # build email body
 
-	for dt in datetimeList:
-		content += "* %s\n" % dt.strftime('%A %d %b %Y at %H:%M')
+	# content = "Available DSA test slots at Horsforth:\n\n"
 
-	content += "\nChecked at [%s]\n\n" % time.strftime('%Y-%m-%d @ %H:%M')
+	# for dt in datetimeList:
+	# 	content += "* %s\n" % dt.strftime('%A %d %b %Y at %H:%M')
 
-	p.write(content)
-	status = p.close()
+	# content += "\nChecked at [%s]\n\n" % time.strftime('%Y-%m-%d @ %H:%M')
+
+	# p.write(content)
+	# status = p.close()
 	
-	if status:
-		print '---> ! An error occured when sending emails'
-	else:
-		print '---> Sent emails to %s' % '; '.join(e for e in emailAddresses)
+	# if status:
+	# 	print '---> ! An error occured when sending emails'
+	# else:
+	# 	print '---> Sent emails to %s' % '; '.join(e for e in emailAddresses)
 
 
 def performUpdate():
@@ -92,53 +90,49 @@ def performUpdate():
 	launcher = Page(launchPage, cookieJar)
 	launcher.connect()
 	launcher.acquireHiddenFields()
-	launcher.fields['txtLicence'] = licenceNumber
-	launcher.fields['txtTheoryPass'] = theoryNumber
-	launcher.fields['txtAppRefNo'] = ''
-	launcher.fields['x'] = '35'
-	launcher.fields['y'] = '17'
+	launcher.fields['driving-licence-number'] = licenceNumber
+	launcher.fields['application-reference-number'] = theoryNumber
 	
-	# check to see if it's down...
-	sorryCannot = launcher.html.find('span', id='SorryCannot')
-	if sorryCannot:
-		print "---> ! Booking system is down, exiting..."
-		#sendEmail([])
+	# check to see if captcha
+	captcha = launcher.html.find('div', id='recaptcha-check')
+	if captcha:
+		print 'Captcha was present, stop DOSing gov.uk idiot'
 		return
-	
+
+	print ''
+
 	time.sleep(pauseTime)
-	
-	overviewPage = Page(launchPage, cookieJar)
-	overviewPage.fields = launcher.fields
-	overviewPage.connect()
-	overviewPage.acquireHiddenFields()
-	overviewPage.fields['changeTestDetails'] = 'Check for different dates'
-	
-	time.sleep(pauseTime)
-	
-	preferredSlotPage = Page('https://driverpracticaltest.direct.gov.uk/bookingdetails.aspx', cookieJar)
-	preferredSlotPage.fields = overviewPage.fields
-	preferredSlotPage.connect()
-	preferredSlotPage.acquireHiddenFields()
-	preferredSlotPage.fields['NextButton.x'] = '36'
-	preferredSlotPage.fields['NextButton.y'] = '11'
-	preferredSlotPage.fields['PrefDate:Day1'] = 'dd'
-	preferredSlotPage.fields['PrefDate:Month1'] = 'mm'
-	preferredSlotPage.fields['PrefDate:Year1'] = 'yyyy'
-	preferredSlotPage.fields['optWhen'] = '2'
-	
-	time.sleep(pauseTime)
-	
-	slotResultsPage = SlotsPage('https://driverpracticaltest.direct.gov.uk/slotpreferences.aspx', cookieJar)
-	slotResultsPage.fields = preferredSlotPage.fields
-	slotResultsPage.connect()
-	datetimeList = slotResultsPage.acquireDateSlots()
-	cancellationList = []
-	
+
+	launcher.connect()
+
+	dateChangeURL = launcher.html.find(id="date-time-change").get('href')
+	# example URL: href="/manage?execution=e1s1&amp;csrftoken=hIRXetGR5YAOdERH7aTLi14fHfOqnOgt&amp;_eventId=editTestDateTime"
+	# i am probably screwing up the POST bit on the forms here
+	dateChangeURL = 'https://driverpracticaltest.direct.gov.uk' + dateChangeURL
+
+
+	slotPickingPage = Page(dateChangeURL, cookieJar)
+	slotPickingPage.fields = launcher.fields
+
+	slotPickingPage.acquireHiddenFields()
+	slotPickingPage.connect()
+
+	# should now be at the test centre search thing
+	slotPickingPage.acquireHiddenFields()
+	slotPickingPage.connect()
+
+	# earliest available date
+
+	availableDates = []
+
+	for slot in slotPickingPage.html(id="availability-results").find_all('a'):
+		availableDates.append(datetime.strptime(slot.string, '%A %d %B %Y %I:%M%p'))
+
+
 	print '---> Available slots:'
 	
-	for dt in datetimeList:
-		if isCancellation(dt):
-			cancellationList.append(dt)
+	for dt in availableDates:
+		if isBeforeMyTest(dt):
 			print '-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),)
 		else:
 			print '-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),)

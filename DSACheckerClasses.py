@@ -24,9 +24,9 @@ class Page:
 		if self.fields:
 			data = urllib.urlencode(self.fields)
 			self.response = self.opener.open(self.url, data)
-			#print "-----> Sending data:"
-			#for c in self.fields.keys():
-			#	print "-------> %s = %s" % (c, self.fields[c][:20])
+			print "-----> Sending data:"
+			for c in self.fields.keys():
+				print "-------> %s = %s" % (c, self.fields[c][:20])
 		else:
 			self.response = self.opener.open(self.url)
 			
