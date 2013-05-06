@@ -1,5 +1,5 @@
 import urllib, urllib2, cookielib
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from datetime import datetime
 
 class Page:
@@ -78,7 +78,7 @@ class SlotsPage(Page):
 			
 			if dateString:
 				# parse the date string
-				dt = datetime.strptime(dateString, '%A %d %b %Y %H:%M')
+				dt = datetime.strptime(dateString, '%A %d %B %Y %I:%M%p')
 				dtList.append(dt)
 		
 		return dtList

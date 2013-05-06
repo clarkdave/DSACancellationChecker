@@ -8,7 +8,7 @@
 import urllib, urllib2, cookielib, time, sys, os
 from datetime import timedelta
 from datetime import datetime
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from DSACheckerClasses import Page, SlotsPage
 
 # this should point at the DSA login page
