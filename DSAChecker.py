@@ -164,10 +164,11 @@ def performUpdate():
 	availableDates = []
 
 	for slot in datePickerPage.html(id="availability-results")[0].find_all('a'):
-		if "Slot" in slot['id']:
-			availableDates.append(datetime.strptime(slot.string.strip(), '%A %d %B %Y %I:%M%p'))
-
-
+		try: 
+			if "Slot" in slot['id']:
+				availableDates.append(datetime.strptime(slot.span.string.strip(), '%A %d %B %Y %I:%M%p'))
+		except:
+			print 'error'
 	print '---> Available slots:'
 	
 	soonerDates = []
