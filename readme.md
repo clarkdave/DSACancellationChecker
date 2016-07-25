@@ -46,7 +46,7 @@ The last time the script was tested and confirmed working was August 2013.
 
 Modifications for new gov.uk website (c) 2013 Josh Palmer (joshpalmer123@gmail.com)
 
-Original Version copyright (c) 2010-2011 Dave Clark (me@clarkdave.net)
+Original Version copyright (c) 2010-2011 Dave Clark (contact@clarkdave.net)
 
 (The MIT License)
 
