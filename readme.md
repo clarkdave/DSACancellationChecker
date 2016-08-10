@@ -4,7 +4,7 @@ A small Python shell script which logs in to the DSA test checking website to lo
 
 It will only work if you already have a booking, as this is generally the case when you look for a cancellation (you book a test in the future, and check regularly to see if you can get it moved forward). With a bit more work, this script could be updated to actually book the cancellation for you, as you don't need to re-enter payment details if you are simply changing your slot.
 
-**Last confirmed working:** Jan 2014
+**Last confirmed working:** August 2016
 
 ## Usage
 
@@ -24,7 +24,7 @@ The above will run the script every 15 minutes between the hours of 6am and 11pm
 
 * For obvious reasons, you can only use this if you are actually looking to book a test
 	* Specifically, you need a valid application number for your existing booking and provisional licence
-* A Gmail account to send emails via SMTP (however, modifying the script to use an alternative email provider is trivial)
+* A Gmail account to send emails via SMTP (however, modifying the script to use an alternative email provider is trivial). If you send via Gmail you'll need to accept access for less secure apps in your Google settings.
 * Python 2.7
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 
