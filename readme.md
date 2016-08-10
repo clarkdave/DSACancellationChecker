@@ -40,8 +40,6 @@ It's not possible to test this script without a 'guinea pig' who is currently lo
 
 Every now and then a friend of mine who is looking to book a cancellation will let me use their details to update the script, so I may periodically update the source to work with the latest version of the website.
 
-The last time the script was tested and confirmed working was August 2013.
-
 ## License 
 
 Modifications for new gov.uk website (c) 2013 Josh Palmer (joshpalmer123@gmail.com)
