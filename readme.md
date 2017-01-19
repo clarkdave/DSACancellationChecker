@@ -1,3 +1,4 @@
+
 # DSA Cancellation Checker
 
 A small Python shell script which logs in to the DSA test checking website to look for cancellations. If it finds one, it will send an email to one or more addresses with the dates and times.
@@ -25,7 +26,7 @@ The above will run the script every 15 minutes between the hours of 6am and 11pm
 * For obvious reasons, you can only use this if you are actually looking to book a test
 	* Specifically, you need a valid application number for your existing booking and provisional licence
 * A Gmail account to send emails via SMTP (however, modifying the script to use an alternative email provider is trivial). If you send via Gmail you'll need to accept access for less secure apps in your Google settings.
-* Python 2.7
+* [Python 3.5.3](https://www.python.org/downloads/release/python-353/)
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 
 ## Limitations
@@ -40,7 +41,9 @@ It's not possible to test this script without a 'guinea pig' who is currently lo
 
 Every now and then a friend of mine who is looking to book a cancellation will let me use their details to update the script, so I may periodically update the source to work with the latest version of the website.
 
-## License 
+## License
+
+Python 3 migration (c) 2017 Calvin Hobbes (goodoldme42@gmail.com)
 
 Modifications for new gov.uk website (c) 2013 Josh Palmer (joshpalmer123@gmail.com)
 
