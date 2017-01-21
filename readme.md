@@ -26,7 +26,7 @@ The above will run the script every 15 minutes between the hours of 6am and 11pm
 * For obvious reasons, you can only use this if you are actually looking to book a test
 	* Specifically, you need a valid application number for your existing booking and provisional licence
 * A Gmail account to send emails via SMTP (however, modifying the script to use an alternative email provider is trivial). If you send via Gmail you'll need to accept access for less secure apps in your Google settings.
-* [Python 3.5.3](https://www.python.org/downloads/release/python-353/)
+* [Python 3.6.0](https://www.python.org/downloads/release/python-360/)
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 
 ## Limitations
