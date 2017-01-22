@@ -24,7 +24,8 @@ class Page:
 		
 		if self.fields:
 			data = urllib.parse.urlencode(self.fields)
-			self.response = self.opener.open(self.url, data)
+			binary_data = data.encode('ascii')
+			self.response = self.opener.open(self.url, binary_data)
 			print("-----> Sending data:")
 			for c in list(self.fields.keys()):
 				print("-------> %s = %s" % (c, self.fields[c][:20]))
