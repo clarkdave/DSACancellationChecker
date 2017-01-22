@@ -1,4 +1,4 @@
-import urllib, urllib2, cookielib
+import urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse, http.cookiejar
 from bs4 import BeautifulSoup
 from datetime import datetime
 import re
@@ -17,17 +17,17 @@ class Page:
 		self.cookieJar = cj
 		
 	def connect(self):
-		print "---> Connecting to %s" % (self.url,)
+		print("---> Connecting to %s" % (self.url,))
 		               
-		self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookieJar))
+		self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.cookieJar))
 		self.opener.addheaders.append(('User-agent', 'Mozilla/4.0'))
 		
 		if self.fields:
-			data = urllib.urlencode(self.fields)
+			data = urllib.parse.urlencode(self.fields)
 			self.response = self.opener.open(self.url, data)
-			print "-----> Sending data:"
-			for c in self.fields.keys():
-				print "-------> %s = %s" % (c, self.fields[c][:20])
+			print("-----> Sending data:")
+			for c in list(self.fields.keys()):
+				print("-------> %s = %s" % (c, self.fields[c][:20]))
 		else:
 			self.response = self.opener.open(self.url)
 			
