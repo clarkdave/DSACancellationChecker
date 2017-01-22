@@ -5,7 +5,7 @@ A small Python shell script which logs in to the DSA test checking website to lo
 
 It will only work if you already have a booking, as this is generally the case when you look for a cancellation (you book a test in the future, and check regularly to see if you can get it moved forward). With a bit more work, this script could be updated to actually book the cancellation for you, as you don't need to re-enter payment details if you are simply changing your slot.
 
-**Last confirmed working:** August 2016
+**Last confirmed working:** 22 January 2017
 
 ## Usage
 
@@ -43,7 +43,7 @@ Every now and then a friend of mine who is looking to book a cancellation will l
 
 ## License
 
-Python 3 migration (c) 2017 Calvin Hobbes (goodoldme42@gmail.com)
+Migrate to Python 3 and modifications to work with updated site (c) 2017 Calvin Hobbes (goodoldme42@gmail.com)
 
 Modifications for new gov.uk website (c) 2013 Josh Palmer (joshpalmer123@gmail.com)
 

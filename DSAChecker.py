@@ -19,11 +19,11 @@ from DSACheckerClasses import Page
 
 
 # Driving license number (Example: MORGA657054SM9IJ)
-licenceNumber = '**********'
+licenceNumber = '****************'
 
 # Application reference number 
 # (This number was given when you booked the test. It can be found on your confirmation email.)
-theoryNumber = '************'
+theoryNumber = '********'
 
 # Email sending details
 
@@ -43,7 +43,6 @@ emailSMTPserver = 'smtp.gmail.com'
 # Put in your current test date in the format "Thursday 4 July 2013 2:00pm"; you will be alerted if an earlier slot appears
 
 myTestDateString = 'Wednesday 12 June 2013 2:00pm'
-
 
 ##################################################################
 #                                                                #
@@ -80,12 +79,12 @@ def sendEmail(datetimeList):
 	# typical values for text_subtype are plain, html, xml
 	text_subtype = 'plain'
 
-	content = "Available DSA test slots at Horsforth:\n\n"
+	content = "Available DSA test slots at your selected test centre:\n\n"
 
 	for dt in datetimeList:
 		content += "* %s\n" % dt.strftime('%A %d %b %Y at %H:%M')
 
-	content += "\nChecked at [%s]\n\n" % time.strftime('%Y-%m-%d @ %H:%M')
+	content += "\nChecked at [%s]\n\n" % time.strftime('%d-%m-%Y @ %H:%M')
 
 	subject = emailSubject
 
@@ -93,17 +92,20 @@ def sendEmail(datetimeList):
 	import os
 	import re
 
-	from smtplib import SMTP_SSL as SMTP       # this invokes the secure SMTP protocol (port 465, uses SSL)
+	from smtplib import SMTP as SMTP       # this invokes the secure SMTP protocol (port 465, uses SSL)
 	# from smtplib import SMTP                  # use this for standard SMTP protocol   (port 25, no encryption)
-	from email.MIMEText import MIMEText
+	from email.mime.text import MIMEText
 
 	try:
 	    msg = MIMEText(content, text_subtype)
 	    msg['Subject']=       subject
 	    msg['From']   = sender # some SMTP servers will do this automatically, not all
 
-	    conn = SMTP(SMTPserver)
+	    conn = SMTP(SMTPserver, 587)
 	    conn.set_debuglevel(False)
+	    conn.ehlo()
+	    conn.starttls()     # Use TLS
+
 	    conn.login(USERNAME, PASSWORD)
 	    try:
 	        conn.sendmail(sender, destination, msg.as_string())
@@ -163,27 +165,24 @@ def performUpdate():
 
 	availableDates = []
 
-	for slot in datePickerPage.html(id="availability-results")[0].find_all('a'):
+	for slot in datePickerPage.html.find_all(class_='SlotPicker-slot'):
 		try: 
-			if "Slot" in slot['id']:
-				availableDates.append(datetime.strptime(slot.span.string.strip(), '%A %d %B %Y %I:%M%p'))
-		except:
-			print('error')
-	print('---> Available slots:')
+			availableDates.append(datetime.strptime(slot['data-datetime-label'].strip(), '%A %d %B %Y %I:%M%p'))
+		except Exception as ex:
+			print("".join(traceback.format_exception(etype=type(ex),value=ex,tb=ex.__traceback__)))
+	print ('---> Available slots:')
 	
 	soonerDates = []
 
 	for dt in availableDates:
 		if isBeforeMyTest(dt):
-			print('-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
+			print ('-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
 			soonerDates.append(dt)
 		else:
-			print('-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
-	
+			print ('-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))	
 	if len(soonerDates):
 		sendEmail(soonerDates)
 
 performUpdate()
-
 print('')
 
