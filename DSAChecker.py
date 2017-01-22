@@ -5,7 +5,7 @@
 	For finding cancellations quickly and easily!
 	
 """
-import urllib, urllib2, cookielib, time, sys, os
+import urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse, http.cookiejar, time, sys, os
 from datetime import timedelta
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -60,7 +60,7 @@ myTestDate = datetime.strptime(myTestDateString, '%A %d %B %Y %I:%M%p')
 # to avoid hammering DSA's servers)
 pauseTime = 5
 
-cookieJar = cookielib.CookieJar()
+cookieJar = http.cookiejar.CookieJar()
 
 def isBeforeMyTest(dt):
 	if dt <= myTestDate:
@@ -110,7 +110,7 @@ def sendEmail(datetimeList):
 	    finally:
 	        conn.close()
 
-	except Exception, exc:
+	except Exception as exc:
 	    sys.exit( "mail failed; %s" % str(exc) ) # give a error message
 
 
@@ -119,8 +119,8 @@ def performUpdate():
 	# this should point at the DSA login page
 	launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
 
-	print '[%s]' % (time.strftime('%Y-%m-%d @ %H:%M'),)
-	print '---> Starting update...'
+	print('[%s]' % (time.strftime('%Y-%m-%d @ %H:%M'),))
+	print('---> Starting update...')
 
 	launcher = Page(launchPage, cookieJar)
 	launcher.connect()
@@ -130,16 +130,16 @@ def performUpdate():
 	# check to see if captcha
 	captcha = launcher.html.find('div', id='recaptcha-check')
 	if captcha:
-		print 'Captcha was present, retry later'
+		print('Captcha was present, retry later')
 		# TODO: implement something to solve these or prompt you for them
 		return
-	print ''
+	print('')
 
 	time.sleep(pauseTime)
 
 	launcher.connect()
 	if captcha:
-		print launcher.html.find("Enter details below to access your booking")
+		print(launcher.html.find("Enter details below to access your booking"))
 
 	dateChangeURL = launcher.html.find(id="date-time-change").get('href')
 	# example URL: href="/manage?execution=e1s1&amp;csrftoken=hIRXetGR5YAOdERH7aTLi14fHfOqnOgt&amp;_eventId=editTestDateTime"
@@ -168,22 +168,22 @@ def performUpdate():
 			if "Slot" in slot['id']:
 				availableDates.append(datetime.strptime(slot.span.string.strip(), '%A %d %B %Y %I:%M%p'))
 		except:
-			print 'error'
-	print '---> Available slots:'
+			print('error')
+	print('---> Available slots:')
 	
 	soonerDates = []
 
 	for dt in availableDates:
 		if isBeforeMyTest(dt):
-			print '-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),)
+			print('-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
 			soonerDates.append(dt)
 		else:
-			print '-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),)
+			print('-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
 	
 	if len(soonerDates):
 		sendEmail(soonerDates)
 
 performUpdate()
 
-print ''
+print('')
 
