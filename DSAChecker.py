@@ -80,7 +80,7 @@ def sendEmail(datetimeList):
 	# typical values for text_subtype are plain, html, xml
 	text_subtype = 'plain'
 
-	content = "Available DSA test slots at Horsforth:\n\n"
+	content = "Available DSA test slots:\n\n"
 
 	for dt in datetimeList:
 		content += "* %s\n" % dt.strftime('%A %d %b %Y at %H:%M')
