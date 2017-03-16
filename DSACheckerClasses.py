@@ -32,7 +32,7 @@ class Page:
 		else:
 			self.response = self.opener.open(self.url)
 			
-		self.html = BeautifulSoup(self.response.read())
+		self.html = BeautifulSoup(self.response.read(), "html.parser")
 
 		# save the pages for diagnostic info
 		# save = open(re.sub(r'\W+', '', self.html.title.string) + '.html', 'w')

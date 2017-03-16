@@ -159,6 +159,9 @@ def performUpdate():
 	datePickerPage = Page(e1s2URL, cookieJar)
 
 	datePickerPage.fields['testChoice'] = 'ASAP'
+	datePickerPage.fields['drivingLicenceSubmit'] = 'Continue'
+	datePickerPage.fields['csrftoken'] = dateChangeURL.split('=')[3]
+	
 	datePickerPage.connect()
 
 	# earliest available date
