@@ -13,13 +13,7 @@ First, open up "DSAChecker.py" and fill in the fields with your details.
 
 The Gmail username and password is required to send you cancellation notification emails, and is only ever used to authenticate with Gmail's servers to allow the script to send emails.
 
-To run on Windows, simply create a scheduled task, running DSAChecker.py at your desired interval.
-
-On Unix-like systems, you can use a cron job:
-
-	*/15 6-23 * * * /app/dsa/DSAChecker.py >> /app/dsa/check.log 2>&1
-	
-The above will run the script every 15 minutes between the hours of 6am and 11pm. The DSA website is currently taken offline outside of these hours - if this is no longer the case, you could just run it all day.
+If you are using this version, do not use a cron job / scheduled task as this is performed within the script.
 
 ## Requirements
 
