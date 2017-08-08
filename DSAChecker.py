@@ -15,36 +15,22 @@ from DSACheckerClasses import Page
 
 ##################################################################
 #                                                                #
-# Update the following variables with your own personal details: #
+# Update the following variables with your own personal details  #
+# in info.py                                                     #
 #                                                                #
 ##################################################################
 
-
-# Driving license number (Example: MORGA657054SM9IJ)
-licenceNumber = '****************'
-
-# Application reference number 
-# (This number was given when you booked the test. It can be found on your confirmation email.)
-theoryNumber = '********'
+from info import licenceNumber, theoryNumber, myTestDateString
 
 # Email sending details
 
-# The email addresses you wish to send notifications to
-emailAddresses = ['example@example.com', 'MySecondEmailAddress@example.com']
+from info import emailAddresses, emailUsername, emailPassword
 
 emailSubject = "DSA Cancellations"
 emailFrom = "no-reply@example.com"
 
-# Enter your gmail account details here so that the script can send emails
-emailUsername = 'example@gmail.com'
-emailPassword = 'mypassword'  # the password to your "example@gmail.com" account
-
 # Change this (at your own risk) if you don't use gmail (e.g. to hotmail/yahoo/etc smtp servers
 emailSMTPserver = 'smtp.gmail.com'
-
-# Put in your current test date in the format "Thursday 4 July 2013 2:00pm"; you will be alerted if an earlier slot appears
-
-myTestDateString = 'Wednesday 12 June 2013 2:00pm'
 
 ##################################################################
 #                                                                #
