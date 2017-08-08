@@ -156,7 +156,7 @@ def performUpdate():
     if captcha:
         # server is suspicious, back off a bit!
         baseWaitTime *= 2
-        print('Captcha was present, increased baseline wait time to ' + str(baseWaitTime/60)) + ' minutes'
+        print('Captcha was present, increased baseline wait time to ' + str(baseWaitTime/60) + ' minutes')
         # TODO: implement something to solve these or prompt you for them
         return
     print('')
