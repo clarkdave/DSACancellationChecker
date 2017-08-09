@@ -25,6 +25,7 @@ from info import licenceNumber, theoryNumber, myTestDateString
 # Email sending details
 
 from info import emailAddresses, emailUsername, emailPassword
+from find_cancellations_selenium import open_web
 
 emailSubject = "DSA Cancellations"
 emailFrom = "no-reply@example.com"
@@ -185,7 +186,7 @@ def performUpdate():
     print ('---> Available slots:')
 
     newSoonerDates = []
-    for dt in availableDates:
+    for dt in availableDates[0:10]:
         # only show / send new appointments
         if isBeforeMyTest(dt) and (dt not in soonerDates):
             print ('-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
@@ -196,7 +197,8 @@ def performUpdate():
 
     if len(newSoonerDates):
         print('---> Sending to ' + ', '.join(emailAddresses))
-        sendEmail(newSoonerDates)
+        #sendEmail(newSoonerDates)
+        open_web()
 
     if baseWaitTime > 300:
         # decrease the baseline wait time as this was a success
