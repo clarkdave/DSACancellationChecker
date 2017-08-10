@@ -132,3 +132,6 @@ def open_web():
 	date_time_list = find_earliest_available_tests()
 	list_pre_curr_tests(date_time_list)
 
+if __name__ == "__main__":
+    date_time_list = find_earliest_available_tests()
+    list_pre_curr_tests(date_time_list)
