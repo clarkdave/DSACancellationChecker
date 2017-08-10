@@ -50,6 +50,8 @@ pauseTime = 5
 
 cookieJar = http.cookiejar.CookieJar()
 
+#control the number of appointments shown
+max_shownum = 10 #
 
 def isBeforeMyTest(dt):
     if dt <= myTestDate:
@@ -122,6 +124,7 @@ def performUpdate():
     global baseWaitTime
     global userAgents
     global soonerDates
+    global max_shownum
 
     # this should point at the DSA login page
     launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
@@ -186,17 +189,25 @@ def performUpdate():
     print ('---> Available slots:')
 
     newSoonerDates = []
-    for dt in availableDates[0:10]:
+
+    #control the number of appointments shown
+    shownum = 0
+
+    for dt in availableDates:
         # only show / send new appointments
         if isBeforeMyTest(dt) and (dt not in soonerDates):
             print ('-----> [CANCELLATION] %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
             soonerDates.append(dt)
             newSoonerDates.append(dt)
         else:
-            print ('-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
+            shownum += 1
+            #control the number of appointments shown
+            if shownum < max_shownum:
+                print ('-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
 
     if len(newSoonerDates):
-        print('---> Sending to ' + ', '.join(emailAddresses))
+        #user can choose to send an email or directly open the web to change it immediately
+        #print('---> Sending to ' + ', '.join(emailAddresses))
         #sendEmail(newSoonerDates)
         open_web()
 
