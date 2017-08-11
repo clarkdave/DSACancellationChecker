@@ -124,13 +124,6 @@ userAgents = [
     'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 ]
 
-def actionWhenfind():
-    #user can choose to send an email or directly open the web to change it immediately
-    #print('---> Sending to ' + ', '.join(emailAddresses))
-    #sendEmail(newSoonerDates)
-    open_web()
-
-
 def performUpdate():
     global baseWaitTime
     global userAgents
@@ -218,7 +211,11 @@ def performUpdate():
                 print ('-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
 
     if len(newSoonerDates):
-            actionWhenfind(action_choosen)
+        if action_choosen == 1:
+            open_web()
+        elif action_choosen == 0:
+            print('---> Sending to ' + ', '.join(emailAddresses))
+            sendEmail(newSoonerDates)
 
     if baseWaitTime > 300:
         # decrease the baseline wait time as this was a success
