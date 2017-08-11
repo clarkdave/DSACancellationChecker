@@ -15,7 +15,7 @@ Then, just run 'DSAChecker.py' using Python3
 
 If you are using this version, do not use a cron job / scheduled task as this is performed within the script.
 
-Users also can choose to send an email or open the web (thanks to bsthowell) by setting action_choosen.
+Users also can choose to send an email or open the web (inspired by https://github.com/bsthowell/find_cancellations) by setting action_choosen.
 
 1) action_choosen = 0: Sending an email is chosen, the Gmail username and password is required in info.py to send you cancellation notification emails, and is only ever used to authenticate with Gmail's servers to allow the script to send emails.
 
