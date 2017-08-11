@@ -53,6 +53,11 @@ cookieJar = http.cookiejar.CookieJar()
 #control the number of appointments shown
 max_shownum = 10 #
 
+#choose the action when find an available datetime
+#0: send an email
+#1: open web directly
+action_choosen = 1
+
 def isBeforeMyTest(dt):
     if dt <= myTestDate:
         return True
@@ -119,12 +124,19 @@ userAgents = [
     'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 ]
 
+def actionWhenfind():
+    #user can choose to send an email or directly open the web to change it immediately
+    #print('---> Sending to ' + ', '.join(emailAddresses))
+    #sendEmail(newSoonerDates)
+    open_web()
+
 
 def performUpdate():
     global baseWaitTime
     global userAgents
     global soonerDates
     global max_shownum
+    global action_choosen
 
     # this should point at the DSA login page
     launchPage = 'https://driverpracticaltest.direct.gov.uk/login'
@@ -206,10 +218,7 @@ def performUpdate():
                 print ('-----> %s' % (dt.strftime('%A %d %b %Y at %H:%M'),))
 
     if len(newSoonerDates):
-        #user can choose to send an email or directly open the web to change it immediately
-        #print('---> Sending to ' + ', '.join(emailAddresses))
-        #sendEmail(newSoonerDates)
-        open_web()
+            actionWhenfind(action_choosen)
 
     if baseWaitTime > 300:
         # decrease the baseline wait time as this was a success
