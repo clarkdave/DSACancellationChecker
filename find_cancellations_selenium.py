@@ -17,6 +17,7 @@ from info import licenceNumber as DR_LIC_NUM
 from info import theoryNumber as APP_REF_NUM 
 from info import myTestDateString as CURRENT_TEST_TEXT
 CURRENT_TEST_DATETIME = datetime.strptime(CURRENT_TEST_TEXT, "%A %d %B %Y %I:%M%p")
+Path_chromedriver="/usr/lib/chromium-browser/chromedriver" #for linux
 
 #request user solution
 #error checking?
@@ -65,7 +66,7 @@ def deal_with_captcha(driver):
 #dealing with captchas if they arise
 def extract_raw_HTML_tag_list():
 	#open browser
-	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
+	driver = webdriver.Chrome(Path_chromedriver)
 
 	#go to landing page, find button to next page and click
 	landing_page = driver.get("https://www.gov.uk/change-driving-test")
