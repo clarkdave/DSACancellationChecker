@@ -1,0 +1,5 @@
+selenium==3.4.3
+urllib==1.12.1
+pillow==4.2.1
+bs4==0.0.1
+chromedriver==2.24.1

@@ -5,21 +5,26 @@ A small Python shell script which logs in to the DSA test checking website to lo
 
 It will only work if you already have a booking, as this is generally the case when you look for a cancellation (you book a test in the future, and check regularly to see if you can get it moved forward). With a bit more work, this script could be updated to actually book the cancellation for you, as you don't need to re-enter payment details if you are simply changing your slot.
 
-**Last confirmed working:** 16 March 2017
+**Last confirmed working:** 16 August 2017
 
 ## Usage
 
-First, open up "DSAChecker.py" and fill in the fields with your details.
+First, open up "info.py" and fill in the fields with your details.
 
-The Gmail username and password is required to send you cancellation notification emails, and is only ever used to authenticate with Gmail's servers to allow the script to send emails.
+Then, just run 'DSAChecker.py' using Python3
 
-To run on Windows, simply create a scheduled task, running DSAChecker.py at your desired interval.
+If you are using this version, do not use a cron job / scheduled task as this is performed within the script.
 
-On Unix-like systems, you can use a cron job:
+Users also can choose to send an email or open the web (inspired by github.com/bsthowell/find_cancellations) by setting action_choosen.
 
-	*/15 6-23 * * * /app/dsa/DSAChecker.py >> /app/dsa/check.log 2>&1
-	
-The above will run the script every 15 minutes between the hours of 6am and 11pm. The DSA website is currently taken offline outside of these hours - if this is no longer the case, you could just run it all day.
+1) action_choosen = 0: Sending an email is chosen, the Gmail username and password is required in info.py to send you cancellation notification emails, and is only ever used to authenticate with Gmail's servers to allow the script to send emails.
+
+2) action_choosen = 1: If user wants to open the web directly, this version provides the open_web() function which can open a browser immediately when an earlier date is found. I fount it is very useful espeically when you want to change your appointment. 
+   make sure you have install chromedriver in /usr/lib/chromium-browser/chromedriver 
+
+Users can open the DSA website directly by:
+
+python find_cancellations_selenium.py
 
 ## Requirements
 
@@ -28,6 +33,12 @@ The above will run the script every 15 minutes between the hours of 6am and 11pm
 * A Gmail account to send emails via SMTP (however, modifying the script to use an alternative email provider is trivial). If you send via Gmail you'll need to accept access for less secure apps in your Google settings.
 * [Python 3.6.0](https://www.python.org/downloads/release/python-360/)
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
+
+You could install by:
+
+pip install -r requirements.txt
+
+* Remember to install this using python3
 
 ## Limitations
 
